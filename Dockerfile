@@ -1,14 +1,18 @@
-# Use official Node.js image
-FROM node:14 AS build-frontend
-WORKDIR /app/frontend
-COPY frontend/package.json frontend/package-lock.json ./
-RUN npm install
-COPY frontend/ ./
-RUN npm run build
+# Use Node.js as the base image
+FROM node:14
 
-FROM node:14 AS build-backend
+# Set working directory for backend
 WORKDIR /app/backend
-COPY backend/package.json backend/package-lock.json ./
+
+# Copy package files and install dependencies
+COPY ./backend/package.json ./backend/package-lock.json ./
 RUN npm install
-COPY backend/ ./
+
+# Copy the backend source code
+COPY ./backend ./backend
+
+# Expose the port the backend server runs on
+EXPOSE 5000
+
+# Start the backend server
 CMD ["node", "server.js"]
