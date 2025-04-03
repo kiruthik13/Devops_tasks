@@ -2,8 +2,8 @@ pipeline {
     agent any
 
     environment {
-        IMAGE_NAME_BACKEND  = "mern-studentportal-backend"
-        IMAGE_NAME_FRONTEND = "mern-studentportal-frontend"
+        BACKEND_IMAGE_NAME  = "mern-studentportal-backend"
+        FRONTEND_IMAGE_NAME = "mern-studentportal-frontend"
         IMAGE_TAG           = "latest"
         DOCKER_REGISTRY     = "docker.io"
         DOCKER_REPO         = "kiruthik1304"
@@ -21,7 +21,7 @@ pipeline {
         stage('Build Backend Image') {
             steps {
                 script {
-                    dockerImageBackend = docker.build("${DOCKER_REPO}/${IMAGE_NAME_BACKEND}:${IMAGE_TAG}", "backend")
+                    dockerImageBackend = docker.build("${DOCKER_REPO}/${BACKEND_IMAGE_NAME}:${IMAGE_TAG}", "./MERN-StudentPortal-main/backend")
                 }
             }
         }
@@ -29,7 +29,7 @@ pipeline {
         stage('Build Frontend Image') {
             steps {
                 script {
-                    dockerImageFrontend = docker.build("${DOCKER_REPO}/${IMAGE_NAME_FRONTEND}:${IMAGE_TAG}", "frontend")
+                    dockerImageFrontend = docker.build("${DOCKER_REPO}/${FRONTEND_IMAGE_NAME}:${IMAGE_TAG}", "./MERN-StudentPortal-main/frontend")
                 }
             }
         }
@@ -51,8 +51,7 @@ pipeline {
             steps {
                 script {
                     sh 'kubectl apply -f deploy.yaml'
-                    sh 'kubectl rollout status deployment/mern-studentportal-backend'
-                    sh 'kubectl rollout status deployment/mern-studentportal-frontend'
+                    sh 'kubectl rollout status deployment/mern-studentportal'
                 }
             }
         }
