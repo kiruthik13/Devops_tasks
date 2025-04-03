@@ -1,32 +1,67 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: mern-studentportal-deployment
+  name: mern-studentportal-backend
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: mern-studentportal
+      app: mern-studentportal-backend
   template:
     metadata:
       labels:
-        app: mern-studentportal
+        app: mern-studentportal-backend
     spec:
       containers:
-      - name: mern-studentportal
-        image: docker.io/kiruthik1304/mern-studentportal:latest
+      - name: backend
+        image: docker.io/kiruthik1304/mern-studentportal-backend:latest
         ports:
-        - containerPort: 8080
+        - containerPort: 5000
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mern-studentportal-frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mern-studentportal-frontend
+  template:
+    metadata:
+      labels:
+        app: mern-studentportal-frontend
+    spec:
+      containers:
+      - name: frontend
+        image: docker.io/kiruthik1304/mern-studentportal-frontend:latest
+        ports:
+        - containerPort: 3000
+
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: mern-studentportal-service
+  name: backend-service
+spec:
+  selector:
+    app: mern-studentportal-backend
+  ports:
+    - port: 5000
+      targetPort: 5000
+  type: ClusterIP
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend-service
 spec:
   type: NodePort
   selector:
-    app: mern-studentportal
+    app: mern-studentportal-frontend
   ports:
-  - port: 8080
-    targetPort: 8080
-    nodePort: 30001
+    - port: 80
+      targetPort: 3000
+      nodePort: 30001
