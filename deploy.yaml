@@ -18,7 +18,7 @@ spec:
           ports:
             - containerPort: 5000
           env:
-            - name: MONGODB_URI
+            - name: MONGO_URI
               value: "mongodb+srv://mrbairavan:kiruthik13@cluster0.fhhvceb.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
           imagePullPolicy: Always
 
