@@ -6,7 +6,8 @@ pipeline {
         FRONTEND_IMAGE_NAME = "mern-studentportal-frontend"         
         IMAGE_TAG           = "latest"         
         DOCKER_REGISTRY     = "docker.io"         
-        DOCKER_REPO         = "kiruthik1304"     
+        DOCKER_REPO         = "kiruthik1304" 
+        KUBECONFIG = "/home/kiruthik/.kube/config"    
     }      
 
     stages {         
@@ -44,15 +45,13 @@ pipeline {
             }  
         }            
 
-        stage('Deploy to Minikube') {      
-            steps {          
-                script {              
-                    sh 'kubectl config set-cluster minikube --server=https://127.0.0.1:50068'             
-                    sh 'kubectl apply -f deploy.yaml --validate=false'              
-                    sh 'kubectl rollout status deployment/mern-studentportal'          
-                }      
-            }  
-        }      
+       stage('Deploy to Minikube') {
+    steps {
+        script {
+            sh 'kubectl apply -f deploy.yaml --kubeconfig=/home/kiruthik/.kube/config --validate=false'
+        }
+    }
+       }   
     }  // <-- Closing `stages {}` block here
 
     post {         
