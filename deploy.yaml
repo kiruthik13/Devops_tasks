@@ -13,10 +13,14 @@ spec:
         app: mern-studentportal-backend
     spec:
       containers:
-      - name: backend
-        image: docker.io/kiruthik1304/mern-studentportal-backend:latest
-        ports:
-        - containerPort: 5000
+        - name: backend
+          image: docker.io/kiruthik1304/mern-studentportal-backend:latest
+          ports:
+            - containerPort: 5000
+          env:
+            - name: MONGODB_URI
+              value: "mongodb+srv://mrbairavan:kiruthik13@cluster0.fhhvceb.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+          imagePullPolicy: Always
 
 ---
 apiVersion: apps/v1
@@ -34,10 +38,11 @@ spec:
         app: mern-studentportal-frontend
     spec:
       containers:
-      - name: frontend
-        image: docker.io/kiruthik1304/mern-studentportal-frontend:latest
-        ports:
-        - containerPort: 3000
+        - name: frontend
+          image: docker.io/kiruthik1304/mern-studentportal-frontend:latest
+          ports:
+            - containerPort: 3000
+          imagePullPolicy: Always
 
 ---
 apiVersion: v1
