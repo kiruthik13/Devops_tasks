@@ -34,18 +34,17 @@ pipeline {
             }
         }
 
-        stage('Push Docker Images') {
-            steps {
-                script {
-                    withCredentials([usernamePassword(credentialsId: 'docker-hub-creds', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
-                        docker.withRegistry("https://${DOCKER_REGISTRY}", "${DOCKER_USERNAME}:${DOCKER_PASSWORD}") {
-                            dockerImageBackend.push("${IMAGE_TAG}")
-                            dockerImageFrontend.push("${IMAGE_TAG}")
-                        }
-                    }
-                }
-            }
-        }
+        stage('Push Docker Images') { 
+    steps { 
+        script { 
+            sh 'docker login -u kiruthik1304 -p "kiruthik@13"'
+            dockerImageBackend.push("${IMAGE_TAG}") 
+            dockerImageFrontend.push("${IMAGE_TAG}") 
+        } 
+    } 
+}
+
+
 
         stage('Deploy to Minikube') {
             steps {
