@@ -21,7 +21,7 @@ pipeline {
         stage('Build Backend Image') {
             steps {
                 script {
-                    dockerImageBackend = docker.build("${DOCKER_REPO}/${IMAGE_NAME_BACKEND}:${IMAGE_TAG}", "./backend")
+                    dockerImageBackend = docker.build("${DOCKER_REPO}/${IMAGE_NAME_BACKEND}:${IMAGE_TAG}", "backend")
                 }
             }
         }
@@ -29,7 +29,7 @@ pipeline {
         stage('Build Frontend Image') {
             steps {
                 script {
-                    dockerImageFrontend = docker.build("${DOCKER_REPO}/${IMAGE_NAME_FRONTEND}:${IMAGE_TAG}", "./frontend")
+                    dockerImageFrontend = docker.build("${DOCKER_REPO}/${IMAGE_NAME_FRONTEND}:${IMAGE_TAG}", "frontend")
                 }
             }
         }
